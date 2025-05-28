@@ -83,8 +83,7 @@ pyds-c/
 ├── bindings/         # Python C API wrappers
 ├── tests/            # Python unit tests
 ├── setup.py          # Build script
-├── README.md
-└── .vscode/          # Optional: VS Code config for IntelliSense/build
+└── README.md
 ```
 
 ---
