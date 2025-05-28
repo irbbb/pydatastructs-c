@@ -62,12 +62,20 @@ static PyObject* PyDLL_to_list(PyDLLObject* self, PyObject* Py_UNUSED(ignored)) 
     return pylist;
 }
 
+static Py_ssize_t PyDLL_length(PyDLLObject* self) {
+    return (Py_ssize_t)dll_length((DoublyLinkedList*)self->list);
+}
+
 static PyMethodDef PyDLL_methods[] = {
     {"append", (PyCFunction)PyDLL_append, METH_VARARGS, "Append value"},
     {"to_list", (PyCFunction)PyDLL_to_list, METH_NOARGS, "Convert to Python list"},
     {"remove", (PyCFunction)PyDLL_remove, METH_VARARGS, "Remove a value"},
     {"prepend", (PyCFunction)PyDLL_prepend, METH_VARARGS, "Insert a value at the start"},
     {NULL}
+};
+
+static PySequenceMethods PYDLL_sequence_methods = {
+    PyDLL_length
 };
 
 static PyTypeObject PyDLLType = {
@@ -80,6 +88,7 @@ static PyTypeObject PyDLLType = {
     .tp_methods = PyDLL_methods,
     .tp_new = PyDLL_new,
     .tp_dealloc = (destructor)PyDLL_dealloc,
+    .tp_as_sequence = &PYDLL_sequence_methods,
 };
 
 static PyModuleDef module = {

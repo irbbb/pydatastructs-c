@@ -62,3 +62,19 @@ def test_prepend_multiple():
     lst.prepend(3)
     lst.prepend(4)
     assert lst.to_list() == [4,3,2]
+
+def test_len_unique():
+    lst = DoublyLinkedList()
+    lst.prepend(2)
+    assert len(lst) == 1
+
+def test_len_multiple():
+    lst = DoublyLinkedList()
+    lst.prepend(2)
+    lst.prepend(2)
+    lst.prepend(2)
+    assert len(lst) == 3
+
+def test_len_empty():
+    lst = DoublyLinkedList()
+    assert len(lst) == 0
