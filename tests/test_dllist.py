@@ -44,3 +44,21 @@ def test_remove_invalid():
     lst.append(1)
     assert lst.remove(2) is None
     assert lst.to_list() == [1]
+
+def test_prepend():
+    lst = DoublyLinkedList()
+    lst.append(1)
+    lst.prepend(2)
+    assert lst.to_list() == [2, 1]
+
+def test_prepend_empty():
+    lst = DoublyLinkedList()
+    lst.prepend(2)
+    assert lst.to_list() == [2]
+
+def test_prepend_multiple():
+    lst = DoublyLinkedList()
+    lst.prepend(2)
+    lst.prepend(3)
+    lst.prepend(4)
+    assert lst.to_list() == [4,3,2]
