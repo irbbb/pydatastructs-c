@@ -57,8 +57,8 @@ void dll_prepend(DoublyLinkedList* list, int value) {
     list->size++;
 }
 
-int* dll_remove(DoublyLinkedList* list, int value) {
-    if (!list) return;
+char dll_remove(DoublyLinkedList* list, int value, int* removed_value) {
+    if (!list) return 0;
     Node* current = list->head;
 
     while (current) {
@@ -73,12 +73,15 @@ int* dll_remove(DoublyLinkedList* list, int value) {
             else
                 list->tail = current->prev;
 
+            *removed_value = current->value;
             free(current);
             list->size--;
-            return &value;
+            return 1;
         }
         current = current->next;
     }
+
+    return 0;
 }
 
 int dll_length(DoublyLinkedList* list) {

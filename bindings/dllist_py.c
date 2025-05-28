@@ -29,6 +29,18 @@ static PyObject* PyDLL_append(PyDLLObject* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
+static PyObject* PyDLL_remove(PyDLLObject* self, PyObject* args) {
+    int value;
+
+    if (!PyArg_ParseTuple(args, "i", &value)) return NULL;
+
+    int removed;
+    if (!dll_remove((DoublyLinkedList*)self->list, value, &removed))
+        Py_RETURN_NONE;
+
+    return PyLong_FromLong(removed);
+}
+
 static PyObject* PyDLL_to_list(PyDLLObject* self, PyObject* Py_UNUSED(ignored)) {
     int size = dll_length((DoublyLinkedList*)self->list);
     int* values = dll_to_array((DoublyLinkedList*)self->list);
@@ -44,6 +56,7 @@ static PyObject* PyDLL_to_list(PyDLLObject* self, PyObject* Py_UNUSED(ignored)) 
 static PyMethodDef PyDLL_methods[] = {
     {"append", (PyCFunction)PyDLL_append, METH_VARARGS, "Append value"},
     {"to_list", (PyCFunction)PyDLL_to_list, METH_NOARGS, "Convert to Python list"},
+    {"remove", (PyCFunction)PyDLL_remove, METH_VARARGS, "Remove a value"},
     {NULL}
 };
 
