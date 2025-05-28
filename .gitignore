@@ -1,0 +1,6 @@
+.vscode
+pydatastructs.egg-info
+docker
+compose.yml
+build
+__pycache__
