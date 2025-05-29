@@ -78,3 +78,42 @@ def test_len_multiple():
 def test_len_empty():
     lst = DoublyLinkedList()
     assert len(lst) == 0
+
+def test_pop_end():
+    lst = DoublyLinkedList()
+    lst.append(1)
+    lst.append(2)
+    assert lst.pop(0) == 1
+    assert lst.to_list() == [2]
+
+def test_pop_start():
+    lst = DoublyLinkedList()
+    lst.append(1)
+    lst.append(2)
+    assert lst.pop(1) == 2
+    assert lst.to_list() == [1]
+
+def test_pop_unique():
+    lst = DoublyLinkedList()
+    lst.append(1)
+    assert lst.pop(0) == 1
+    assert lst.to_list() == []
+
+def test_pop_and_append():
+    lst = DoublyLinkedList()
+    lst.append(1)
+    assert lst.pop(0) == 1
+    lst.append(1)
+    assert lst.to_list() == [1]
+
+def test_pop_empty():
+    lst = DoublyLinkedList()
+    assert lst.pop(0) is None
+    lst.append(1)
+    assert lst.to_list() == [1]
+
+def test_pop_invalid():
+    lst = DoublyLinkedList()
+    lst.append(1)
+    assert lst.pop(1) is None
+    assert lst.to_list() == [1]

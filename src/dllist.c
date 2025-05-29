@@ -84,6 +84,32 @@ char dll_remove(DoublyLinkedList* list, int value, int* removed_value) {
     return 0;
 }
 
+char dll_pop(DoublyLinkedList* list, int index, int* removed_value) {
+    if(!list) return 0;
+    if(index >= list->size) return 0;
+
+    Node* current = list->head;
+
+    for(int i = 0; i < index; i++) {
+        current = current->next;
+    }
+
+    if (current->prev)
+        current->prev->next = current->next;
+    else
+        list->head = current->next;
+
+    if (current->next)
+        current->next->prev = current->prev;
+    else
+        list->tail = current->prev;
+
+    *removed_value = current->value;
+    free(current);
+    list->size--;
+    return 1;
+}
+
 int dll_length(DoublyLinkedList* list) {
     if (!list) return 0;
     return list->size;

@@ -50,6 +50,18 @@ static PyObject* PyDLL_remove(PyDLLObject* self, PyObject* args) {
     return PyLong_FromLong(removed);
 }
 
+static PyObject* PyDLL_pop(PyDLLObject* self, PyObject* args) {
+    int index;
+
+    if (!PyArg_ParseTuple(args, "i", &index)) return NULL;
+
+    int removed;
+    if (!dll_pop((DoublyLinkedList*)self->list, index, &removed))
+        Py_RETURN_NONE;
+
+    return PyLong_FromLong(removed);
+}
+
 static PyObject* PyDLL_to_list(PyDLLObject* self, PyObject* Py_UNUSED(ignored)) {
     int size = dll_length((DoublyLinkedList*)self->list);
     int* values = dll_to_array((DoublyLinkedList*)self->list);
@@ -69,7 +81,8 @@ static Py_ssize_t PyDLL_length(PyDLLObject* self) {
 static PyMethodDef PyDLL_methods[] = {
     {"append", (PyCFunction)PyDLL_append, METH_VARARGS, "Append value"},
     {"to_list", (PyCFunction)PyDLL_to_list, METH_NOARGS, "Convert to Python list"},
-    {"remove", (PyCFunction)PyDLL_remove, METH_VARARGS, "Remove a value"},
+    {"remove", (PyCFunction)PyDLL_remove, METH_VARARGS, "Remove a value. Returns the value removed."},
+    {"pop", (PyCFunction)PyDLL_pop, METH_VARARGS, "Remove a value by index. Returns the value removed."},
     {"prepend", (PyCFunction)PyDLL_prepend, METH_VARARGS, "Insert a value at the start"},
     {NULL}
 };

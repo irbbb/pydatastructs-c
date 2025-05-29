@@ -20,6 +20,7 @@ void dll_free(DoublyLinkedList* dll);
 void dll_append(DoublyLinkedList* list, int value);
 void dll_prepend(DoublyLinkedList* list, int value);
 char dll_remove(DoublyLinkedList* list, int value, int* removed_value);
+char dll_pop(DoublyLinkedList* list, int index, int* removed_value);
 int dll_length(DoublyLinkedList* list);
 int* dll_to_array(DoublyLinkedList* list);
 
