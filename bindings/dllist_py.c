@@ -81,11 +81,11 @@ static Py_ssize_t PyDLL_length(PyDLLObject* self) {
 }
 
 static PyMethodDef PyDLL_methods[] = {
-    {"append", (PyCFunction)PyDLL_append, METH_VARARGS, "Append value"},
-    {"to_list", (PyCFunction)PyDLL_to_list, METH_NOARGS, "Convert to Python list"},
-    {"remove", (PyCFunction)PyDLL_remove, METH_VARARGS, "Remove a value. Returns the value removed."},
-    {"pop", (PyCFunction)PyDLL_pop, METH_VARARGS, "Remove a value by index. Returns the value removed."},
-    {"prepend", (PyCFunction)PyDLL_prepend, METH_VARARGS, "Insert a value at the start"},
+    {"append", (PyCFunction)PyDLL_append, METH_VARARGS, "Add a value at the end."},
+    {"prepend", (PyCFunction)PyDLL_prepend, METH_VARARGS, "Add a value at the beginning."},
+    {"pop", (PyCFunction)PyDLL_pop, METH_VARARGS, "Remove a node by index. Returns the value removed."},
+    {"remove", (PyCFunction)PyDLL_remove, METH_VARARGS, "Remove a node by value. Returns the value removed."},
+    {"to_list", (PyCFunction)PyDLL_to_list, METH_NOARGS, "Convert to Python list."},
     {NULL}
 };
 
@@ -99,7 +99,14 @@ static PyTypeObject PyDLLType = {
     .tp_basicsize = sizeof(PyDLLObject),
     .tp_itemsize = 0,
     .tp_flags = Py_TPFLAGS_DEFAULT,
-    .tp_doc = "Doubly Linked List",
+    .tp_doc = "Doubly Linked List\n"
+    "\n"
+    "- append(value: int) - Add a value at the end.\n"
+    "- prepend(value: int) - Add a value at the beginning.\n"
+    "- remove(value: int) -> Optional[int] - Remove a node by value. Returns the value removed.\n"
+    "- pop(index: int) -> Optional[int] - Remove a node by index. Returns the value removed.\n"
+    "- to_list() -> list[int] - Convert to Python list.\n"
+    "- len(list) -> int - Get number of items.\n",
     .tp_methods = PyDLL_methods,
     .tp_new = PyDLL_new,
     .tp_dealloc = (destructor)PyDLL_dealloc,
@@ -109,17 +116,8 @@ static PyTypeObject PyDLLType = {
 static PyModuleDef dllist_module = {
     PyModuleDef_HEAD_INIT,
     "dllist",
-    "This module exposes a high-performance, memory-efficient doubly linked list
-implementation written in C to Python via the C API. It allows:
-
-- `append(value)` — add a value at the end
-- `prepend(value)` — add a value at the beginning
-- `remove(value)` — remove a node by value
-- `pop(index)` — remove a node by index
-- `to_list()` — convert to Python list
-- `len(list)` — get number of items
-
-Use cases: real-time data structures, embedded systems, performance-critical Python modules.",
+    "This module exposes a high-performance, memory-efficient doubly linked list "
+    "implementation written in C to Python via the C API"
     -1,
     NULL, NULL, NULL, NULL, NULL
 };
