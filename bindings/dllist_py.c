@@ -1,3 +1,5 @@
+// bindings/dllist_py.c
+
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include "../src/dllist.h"
@@ -104,10 +106,20 @@ static PyTypeObject PyDLLType = {
     .tp_as_sequence = &PYDLL_sequence_methods,
 };
 
-static PyModuleDef module = {
+static PyModuleDef dllist_module = {
     PyModuleDef_HEAD_INIT,
     "dllist",
-    "Python bindings for data structures in C",
+    "This module exposes a high-performance, memory-efficient doubly linked list
+implementation written in C to Python via the C API. It allows:
+
+- `append(value)` — add a value at the end
+- `prepend(value)` — add a value at the beginning
+- `remove(value)` — remove a node by value
+- `pop(index)` — remove a node by index
+- `to_list()` — convert to Python list
+- `len(list)` — get number of items
+
+Use cases: real-time data structures, embedded systems, performance-critical Python modules.",
     -1,
     NULL, NULL, NULL, NULL, NULL
 };
@@ -116,7 +128,7 @@ PyMODINIT_FUNC PyInit_dllist(void) {
     PyObject* m;
     if (PyType_Ready(&PyDLLType) < 0) return NULL;
 
-    m = PyModule_Create(&module);
+    m = PyModule_Create(&dllist_module);
     if (!m) return NULL;
 
     Py_INCREF(&PyDLLType);
