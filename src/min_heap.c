@@ -27,74 +27,62 @@ void min_heap_free(MinHeap* min_heap) {
     free(min_heap);
 }
 
+static void min_heap_move_up(MinHeap* min_heap, int index) {
+    int value = min_heap->data[index];
+    while (index > 0) {
+        int parent = (index - 1) / 2;
+        if (min_heap->data[parent] <= value) break;
+        min_heap->data[index] = min_heap->data[parent];
+        index = parent;
+    }
+    min_heap->data[index] = value;
+}
+
 void min_heap_insert(MinHeap* min_heap, int value) {
     if (!min_heap) return;
 
     if (min_heap->size == min_heap->capacity) {
         int new_capacity = min_heap->capacity * 2;
-        int* new_data = malloc(sizeof(int) * new_capacity);
+        int* new_data = realloc(min_heap->data, sizeof(int) * new_capacity);
+        if (!new_data) return;
 
-        for (int i = 0; i < min_heap->size; i++) {
-            new_data[i] = min_heap->data[i];
-        }
-
-        free(min_heap->data);
         min_heap->data = new_data;
         min_heap->capacity = new_capacity;
     }
 
-    int i = min_heap->size;
-    min_heap->data[i] = value;
+    min_heap->data[min_heap->size] = value;
+    min_heap_move_up(min_heap, min_heap->size);
     min_heap->size++;
+}
 
-    while (i > 0) {
-        int parent = (i - 1) / 2;
+static void min_heap_move_down(MinHeap* min_heap, int index) {
+    int value = min_heap->data[index];
+    int size = min_heap->size;
 
-        if (min_heap->data[parent] <= value) break;
+    while (1) {
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+        int smallest = index;
 
-        min_heap->data[i] = min_heap->data[parent];
-        i = parent;
+        if (left < size && min_heap->data[left] < min_heap->data[smallest]) smallest = left;
+        if (right < size && min_heap->data[right] < min_heap->data[smallest]) smallest = right;
+        if (smallest == index) break;
+
+        min_heap->data[index] = min_heap->data[smallest];
+        index = smallest;
     }
 
-    min_heap->data[i] = value;
+    min_heap->data[index] = value;
 }
 
 char min_heap_remove(MinHeap* min_heap, int* removed) {
     if (!min_heap) return 0;
     if (min_heap->size == 0) return 0;
 
-    int min_value = min_heap->data[0];
-    int last_value = min_heap->data[min_heap->size - 1];
-    min_heap->size--;
+    *removed = min_heap->data[0];
+    min_heap->data[0] = min_heap->data[--min_heap->size];
+    min_heap_move_down(min_heap, 0);
 
-    int i = 0;
-    int left, right, smallest;
-
-    min_heap->data[0] = last_value;
-
-    while(1) {
-        left = 2 * i + 1;
-        right = 2 * i + 2;
-        smallest = i;
-
-        if (left < min_heap->size && min_heap->data[left] < min_heap->data[smallest]) {
-            smallest = left;
-        }
-
-        if (right < min_heap->size && min_heap->data[right] < min_heap->data[smallest]) {
-            smallest = right;
-        }
-
-        if (smallest == i) break;
-
-        int temp = min_heap->data[i];
-        min_heap->data[i] = min_heap->data[smallest];
-        min_heap->data[smallest] = temp;
-
-        i = smallest;
-    }
-
-    *removed = min_value;
     return 1;
 }
 
@@ -108,6 +96,6 @@ char min_heap_peek(MinHeap* min_heap, int* peek) {
 }
 
 int min_heap_length(MinHeap* min_heap) {
-    if (!min_heap) return;
+    if (!min_heap) return 0;
     return min_heap->size;
 }
