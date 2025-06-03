@@ -14,7 +14,7 @@ void min_heap_free(MinHeap* min_heap);
 
 void min_heap_insert(MinHeap* min_heap, int value);
 char min_heap_remove(MinHeap* min_heap, int* removed);
-int min_heap_peek(MinHeap* min_heap);
+char min_heap_peek(MinHeap* min_heap, int* peek);
 
 int min_heap_length(MinHeap* min_heap);
 

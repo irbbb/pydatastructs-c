@@ -98,8 +98,13 @@ char min_heap_remove(MinHeap* min_heap, int* removed) {
     return 1;
 }
 
-int min_heap_peek(MinHeap* min_heap) {
-    return NULL;
+char min_heap_peek(MinHeap* min_heap, int* peek) {
+    if (!min_heap) return 0;
+    if (min_heap->size == 0) return 0;
+
+    *peek = min_heap->data[0];
+
+    return 1;
 }
 
 int min_heap_length(MinHeap* min_heap) {

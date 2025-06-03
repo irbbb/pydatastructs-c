@@ -41,6 +41,16 @@ static PyObject* PyMinHeap_remove(PyMinHeapObject* self, PyObject* args) {
     return PyLong_FromLong(removed);
 }
 
+static PyObject* PyMinHead_peek(PyMinHeapObject* self, PyObject* args) {
+    int peek;
+
+    if (!min_heap_peek(self->min_heap, &peek)) {
+        Py_RETURN_NONE;
+    }
+
+    return PyLong_FromLong(peek);
+}
+
 static Py_ssize_t PyMinHeap_length(PyMinHeapObject* self) {
     return (Py_ssize_t)min_heap_length(self->min_heap);
 }
@@ -48,6 +58,7 @@ static Py_ssize_t PyMinHeap_length(PyMinHeapObject* self) {
 static PyMethodDef PyMinHeap_methods[] = {
     {"insert", (PyCFunction)PyMinHeap_insert, METH_VARARGS, "Add a value to the minimum heap."},
     {"remove", (PyCFunction)PyMinHeap_remove, METH_NOARGS, "Remove the minimum value from the minimum heap."},
+    {"peek", (PyCFunction)PyMinHead_peek, METH_NOARGS, "Peek the minimum value from the minimum heap."},
     {NULL}
 };
 
@@ -66,6 +77,7 @@ static PyTypeObject PyMinHeapType = {
     "\n"
     "- insert(value: int) - Add a value to the minimum heap.\n"
     "- remove() -> Optional[int] - Remove the minimum value from the minimum heap.\n",
+    "- peek() -> Optional[int] - Peek the minimum value from the minimum heap.\n",
     .tp_methods = PyMinHeap_methods,
     .tp_new = PyMinHeap_new,
     .tp_dealloc = (destructor)PyMinHeap_dealloc,

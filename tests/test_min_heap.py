@@ -66,3 +66,29 @@ def test_insert_duplicates():
     assert heap.remove() == 5
     assert heap.remove() == 5
     assert heap.remove() is None
+
+def test_peek_empty():
+    heap = MinHeap()
+    assert heap.peek() is None
+
+def test_peek_single():
+    heap = MinHeap()
+    heap.insert(42)
+    assert heap.peek() == 42
+    assert len(heap) == 1
+
+def test_peek_multiple():
+    heap = MinHeap()
+    heap.insert(10)
+    heap.insert(2)
+    heap.insert(15)
+    assert heap.peek() == 2
+    assert len(heap) == 3
+
+def test_peek_after_remove():
+    heap = MinHeap()
+    heap.insert(7)
+    heap.insert(3)
+    heap.insert(9)
+    assert heap.remove() == 3
+    assert heap.peek() == 7
