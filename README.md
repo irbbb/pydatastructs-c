@@ -23,7 +23,7 @@ This is also a great portfolio project for learning and demonstrating:
 | Structure           | Description                                         | Status |
 |---------------------|-----------------------------------------------------|--------|
 | `DoublyLinkedList`  | Classic double-ended linked list (prepend/append)   | ✅ Done |
-| `MinHeap`           | Binary heap for priority queue operations           | 🔜 Planned |
+| `MinHeap`           | Binary heap for priority queue operations           | In progress |
 | `HashTable`         | Hash map with collision resolution                  | 🔜 Planned |
 | `Trie`              | Prefix tree for fast string queries                 | 🔜 Planned |
 | `UnionFind`         | Disjoint-set structure for component tracking       | 🔜 Planned |
