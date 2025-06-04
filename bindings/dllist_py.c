@@ -90,7 +90,8 @@ static PyMethodDef PyDLL_methods[] = {
 };
 
 static PySequenceMethods PYDLL_sequence_methods = {
-    PyDLL_length
+    .sq_length = (lenfunc)PyDLL_length,
+    0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 static PyTypeObject PyDLLType = {

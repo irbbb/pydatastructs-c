@@ -8,13 +8,20 @@ dllist_ext = Extension(
     ],
 )
 
+min_heap_ext = Extension(
+    name='pydatastructs.min_heap',
+    sources=[
+        'bindings/min_heap_py.c',
+        'src/min_heap.c',
+    ],
+)
 
 setup(
     name="pydatastructs",
     version="0.1.0",
     description="Data Structures in C for Python",
     author="irbbb",
-    ext_modules=[dllist_ext],
+    ext_modules=[dllist_ext, min_heap_ext],
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: C',

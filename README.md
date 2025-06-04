@@ -23,7 +23,7 @@ This is also a great portfolio project for learning and demonstrating:
 | Structure           | Description                                         | Status |
 |---------------------|-----------------------------------------------------|--------|
 | `DoublyLinkedList`  | Classic double-ended linked list (prepend/append)   | ✅ Done |
-| `MinHeap`           | Binary heap for priority queue operations           | 🔜 Planned |
+| `MinHeap`           | Binary heap for priority queue operations           | ✅ Done |
 | `HashTable`         | Hash map with collision resolution                  | 🔜 Planned |
 | `Trie`              | Prefix tree for fast string queries                 | 🔜 Planned |
 | `UnionFind`         | Disjoint-set structure for component tracking       | 🔜 Planned |
@@ -78,8 +78,8 @@ Make sure you have a C compiler installed (e.g., gcc via MinGW on Windows or gcc
 ## 🧱 Project Structure
 
 ```r
-pyds-c/
-├── src/              # C implementations (dllist.c, heap.c, etc.)
+pydatastructs-c/
+├── src/              # C implementations (dllist.c, min_heap.c, etc.)
 ├── bindings/         # Python C API wrappers
 ├── tests/            # Python unit tests
 ├── setup.py          # Build script
