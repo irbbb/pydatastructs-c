@@ -1,7 +1,6 @@
 // src/min_heap.c
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "min_heap.h"
 
 #define MIN_HEAP_INITIAL_CAPACITY 3
