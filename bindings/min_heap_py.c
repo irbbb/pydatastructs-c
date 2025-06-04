@@ -9,6 +9,8 @@ typedef struct {
     MinHeap* min_heap;
 } PyMinHeapObject;
 
+static PyTypeObject PyMinHeapType;
+
 static void PyMinHeap_dealloc(PyMinHeapObject* self) {
     min_heap_free(self->min_heap);
     Py_TYPE(self)->tp_free((PyObject*)self);
@@ -20,6 +22,45 @@ static PyObject* PyMinHeap_new(PyTypeObject* type, PyObject* args, PyObject* kwa
     self->min_heap = min_heap_create();
 
     return (PyObject*)self;
+}
+
+static PyObject* PyMinHeap_cls_heapify(PyObject* cls, PyObject* args) {
+    if (!PyType_Check(cls)) {
+        PyErr_SetString(PyExc_TypeError, "First argument must be a class");
+        return NULL;
+    }
+
+    PyObject* input_list;
+
+    if(!PyArg_ParseTuple(args, "O!", &PyList_Type, &input_list)) return NULL;
+
+    int len = PyList_Size(input_list);
+    int* arr = malloc(sizeof(int) * len);
+    if(!arr) return PyErr_NoMemory();
+
+    for (int i = 0; i < len; i++) {
+        PyObject* item = PyList_GetItem(input_list, i);
+
+        long val = PyLong_AsLong(item);
+        if (PyErr_Occurred()) {
+            PyErr_SetString(PyExc_TypeError, "List items must be integers");
+            free(arr);
+            return NULL;
+        }
+        arr[i] = (int) val;
+    }
+
+    MinHeap* heap = min_heap_heapify(arr, len);
+    free(arr);
+
+    PyMinHeapObject* obj = PyObject_New(PyMinHeapObject, (PyTypeObject*)cls);
+    if(!obj) {
+        min_heap_free(heap);
+        return PyErr_NoMemory();
+    }
+
+    obj->min_heap = heap;
+    return (PyObject*)obj;
 }
 
 static PyObject* PyMinHeap_insert(PyMinHeapObject* self, PyObject* args) {
@@ -41,7 +82,19 @@ static PyObject* PyMinHeap_remove(PyMinHeapObject* self, PyObject* args) {
     return PyLong_FromLong(removed);
 }
 
-static PyObject* PyMinHead_peek(PyMinHeapObject* self, PyObject* args) {
+static PyObject* PyMinHeap_pushpop(PyMinHeapObject* self, PyObject* args) {
+    int value;
+    int removed;
+
+    if(!PyArg_ParseTuple(args, "i", &value)) return NULL;
+    if (!min_heap_pushpop(self->min_heap, value, &removed)) {
+        Py_RETURN_NONE;
+    }
+
+    return PyLong_FromLong(removed);
+}
+
+static PyObject* PyMinHeap_peek(PyMinHeapObject* self, PyObject* args) {
     int peek;
 
     if (!min_heap_peek(self->min_heap, &peek)) {
@@ -56,9 +109,11 @@ static Py_ssize_t PyMinHeap_length(PyMinHeapObject* self) {
 }
 
 static PyMethodDef PyMinHeap_methods[] = {
+    {"heapify", (PyCFunction)PyMinHeap_cls_heapify, METH_VARARGS | METH_CLASS, "Receives an integer array and returns a minimum heap."},
     {"insert", (PyCFunction)PyMinHeap_insert, METH_VARARGS, "Add a value to the minimum heap."},
     {"remove", (PyCFunction)PyMinHeap_remove, METH_NOARGS, "Remove the minimum value from the minimum heap."},
-    {"peek", (PyCFunction)PyMinHead_peek, METH_NOARGS, "Peek the minimum value from the minimum heap."},
+    {"peek", (PyCFunction)PyMinHeap_peek, METH_NOARGS, "Peek the minimum value from the minimum heap."},
+    {"pushpop", (PyCFunction)PyMinHeap_pushpop, METH_VARARGS, "Insert a value into the minimum heap and remove the current minimum in a single operation."},
     {NULL}
 };
 
@@ -75,9 +130,11 @@ static PyTypeObject PyMinHeapType = {
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_doc = "Minimum Heap\n"
     "\n"
+    "- heapify(array: list[int]) - Receives an array and returns a minimum heap.\n"
     "- insert(value: int) - Add a value to the minimum heap.\n"
-    "- remove() -> Optional[int] - Remove the minimum value from the minimum heap.\n",
-    "- peek() -> Optional[int] - Peek the minimum value from the minimum heap.\n",
+    "- remove() -> Optional[int] - Remove the minimum value from the minimum heap.\n"
+    "- peek() -> Optional[int] - Peek the minimum value from the minimum heap.\n"
+    "- pushpop(value: int) -> int - Insert a value into the minimum heap and remove the current minimum in a single operation.\n",
     .tp_methods = PyMinHeap_methods,
     .tp_new = PyMinHeap_new,
     .tp_dealloc = (destructor)PyMinHeap_dealloc,

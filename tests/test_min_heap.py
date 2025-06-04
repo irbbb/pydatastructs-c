@@ -92,3 +92,35 @@ def test_peek_after_remove():
     heap.insert(9)
     assert heap.remove() == 3
     assert heap.peek() == 7
+
+def test_pushpop_smaller_than_root():
+    heap = MinHeap()
+    for v in [10, 20, 30]:
+        heap.insert(v)
+
+    removed = heap.pushpop(5)
+    assert removed == 5
+    assert heap.peek() == 10
+
+def test_pushpop_larger_than_root():
+    heap = MinHeap()
+    for v in [10, 20, 30]:
+        heap.insert(v)
+
+    removed = heap.pushpop(25)
+    assert removed == 10
+    assert heap.peek() == 20
+
+def test_heapify_creates_valid_heap():
+    values = [9, 4, 7, 1, -2, 6, 5]
+    heap = MinHeap.heapify(values)
+
+    assert len(heap) == len(values)
+
+    sorted_out = [heap.remove() for _ in range(len(values))]
+    assert sorted_out == sorted(values)
+
+def test_heapify_empty():
+    heap = MinHeap.heapify([])
+    assert len(heap) == 0
+    assert heap.peek() is None
