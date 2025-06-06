@@ -44,6 +44,13 @@ bool linked_list_pop(LinkedList* ll, int* removed) {
     return true;
 }
 
+bool linked_list_peek(LinkedList* ll, int* peeked) {
+    if (!ll || !ll->head || !peeked) return false;
+
+    *peeked = ll->head->value;
+    return true;
+}
+
 int linked_list_length(const LinkedList* ll) {
     return ll ? ll->size : 0;
 }

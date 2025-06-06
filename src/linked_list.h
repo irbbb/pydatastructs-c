@@ -53,6 +53,15 @@ bool linked_list_prepend(LinkedList* ll, int value);
  */
 bool linked_list_pop(LinkedList* ll, int* removed);
 
+
+/**
+ * @brief Peek the first value from the list.
+ * @param ll Pointer to the list.
+ * @param peeked Pointer to store the peeked value.
+ * @return true if an element was peeked, false otherwise.
+ */
+bool linked_list_peek(LinkedList* ll, int* peeked);
+
 /**
  * @brief Returns the number of elements in the list.
  * @param ll Pointer to the list.

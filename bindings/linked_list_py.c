@@ -41,6 +41,17 @@ static PyObject* PyLinkedList_pop(PyLinkedListObject* self) {
     return PyLong_FromLong(removed);
 }
 
+static PyObject* PyLinkedList_peek(PyLinkedListObject* self) {
+    int peeked;
+
+    if(!linked_list_peek(self->ll, &peeked)) {
+        Py_RETURN_NONE;
+    }
+
+    return PyLong_FromLong(peeked);
+}
+
+
 static Py_ssize_t PyLinkedList_length(PyLinkedListObject* self) {
     return (Py_ssize_t)linked_list_length(self->ll);
 }
@@ -48,6 +59,7 @@ static Py_ssize_t PyLinkedList_length(PyLinkedListObject* self) {
 static PyMethodDef PyLinkedList_methods[] = {
     {"prepend", (PyCFunction)PyLinkedList_prepend, METH_VARARGS, "Add a value at the beginning."},
     {"pop", (PyCFunction)PyLinkedList_pop, METH_VARARGS, "Remove the first element. Returns the value removed. If there is no element, return None."},
+    {"peek", (PyCFunction)PyLinkedList_peek, METH_VARARGS, "Peek the first element. If there is no element, return None."},
     {NULL}
 };
 
@@ -65,7 +77,8 @@ static PyTypeObject PyLinkedListType = {
     .tp_doc = "Linked List\n"
     "\n"
     "- prepend(value: int) - Add a value at the beginning."
-    "- pop() -> Optional[in] - Remove the first element. Returns the value removed. If there is no element, return None.",
+    "- pop() -> Optional[int] - Remove the first element. Returns the value removed. If there is no element, return None."
+    "- peek() -> Optional[int] - Peek the first element. If there is no element, return None.",
     .tp_methods = PyLinkedList_methods,
     .tp_new = PyLinkedList_new,
     .tp_dealloc = (destructor)PyLinkedList_dealloc,
