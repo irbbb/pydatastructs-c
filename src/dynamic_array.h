@@ -187,7 +187,16 @@ dyn_array_status_t dynamic_array_copy(const dynamic_array_t* src, dynamic_array_
  * @param out_value Pointer to store retrieved value.
  * @return Status code.
  */
-dyn_array_status_t dynamic_array_get(const dynamic_array_t* array, size_t index, DYN_ARRAY_TYPE* out_value);
+static inline dyn_array_status_t dynamic_array_get(
+    const dynamic_array_t* array,
+    size_t index,
+    DYN_ARRAY_TYPE* out_value
+) {
+    CHECK_PTR_RET(array, DYN_ARRAY_ERROR_NULL_POINTER);
+    if (__builtin_expect(index >= array->size, 0)) return DYN_ARRAY_ERROR_OUT_OF_RANGE;
+    *out_value = array->data[index];
+    return DYN_ARRAY_OK;
+}
 
 /**
  * @brief Set element at index safely.
@@ -212,7 +221,10 @@ static inline __attribute__((always_inline)) dyn_array_status_t dynamic_array_se
  * @param array Pointer to dynamic array.
  * @return Number of elements or 0 if array is NULL.
  */
-size_t dynamic_array_size(const dynamic_array_t* array);
+static inline size_t dynamic_array_size(const dynamic_array_t* array) {
+    if (!array) return 0;
+    return array->size;
+}
 
 /**
  * @brief Check if the dynamic array is empty.
