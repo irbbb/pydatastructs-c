@@ -3,7 +3,6 @@
 #include "monotonic_increasing_stack.h"
 #include "linked_list.h"
 #include <stdlib.h>
-#include <assert.h>
 
 struct monotonic_increasing_stack_ll_s {
     LinkedList* ll;
