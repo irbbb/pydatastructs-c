@@ -10,6 +10,11 @@ extern "C" {
 #include <stdbool.h>  // For 'bool' return types
 
 /**
+ * @file linked_list.h
+ * @brief API for a singly linked list.
+ */
+
+/**
  * @brief Node in the singly linked list.
  */
 typedef struct Node {
@@ -60,7 +65,7 @@ bool linked_list_pop(LinkedList* ll, int* removed);
  * @param peeked Pointer to store the peeked value.
  * @return true if an element was peeked, false otherwise.
  */
-bool linked_list_peek(LinkedList* ll, int* peeked);
+bool linked_list_peek(const LinkedList* ll, int* peeked);
 
 /**
  * @brief Returns the number of elements in the list.
