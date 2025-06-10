@@ -24,12 +24,21 @@ linked_list_ext = Extension(
     ]
 )
 
+monotonic_increasing_stack_ext = Extension(
+    name='pydatastructs.monotonic_increasing_stack',
+    sources=[
+        'bindings/monotonic_increasing_stack_py.c',
+        'src/monotonic_increasing_stack.c',
+        'src/dynamic_array.c'
+    ]
+)
+
 setup(
     name="pydatastructs",
     version="0.1.0",
     description="Data Structures in C for Python",
     author="irbbb",
-    ext_modules=[dllist_ext, min_heap_ext, linked_list_ext],
+    ext_modules=[dllist_ext, min_heap_ext, linked_list_ext, monotonic_increasing_stack_ext],
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: C',
