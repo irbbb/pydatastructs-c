@@ -71,7 +71,7 @@ mis_status_t monotonic_increasing_stack_is_empty(const monotonic_increasing_stac
  * @param out_size Pointer to store size.
  * @return MIS_SUCCESS or error code.
  */
-mis_status_t monotonic_increasing_stack_size(const monotonic_increasing_stack_t* stack, int32_t* out_size);
+mis_status_t monotonic_increasing_stack_size(const monotonic_increasing_stack_t* stack, uint32_t* out_size);
 
 #ifdef __cplusplus
 }
