@@ -1,6 +1,5 @@
 #include "dynamic_array.h"
 #include <stdlib.h>
-#include <string.h>
 #include <limits.h>
 #include <stdio.h>  // for debug prints if needed
 
@@ -251,7 +250,7 @@ dyn_array_status_t dynamic_array_copy(const dynamic_array_t *src, dynamic_array_
         dst->data = tmp;
         dst->capacity = src->capacity;
     }
-    memcpy_s(dst->data, src->data, src->size * sizeof(DYN_ARRAY_TYPE));
+    memcpy(dst->data, src->data, src->size * sizeof(DYN_ARRAY_TYPE));
     dst->size = src->size;
 
 #ifdef DYNAMIC_ARRAY_THREAD_SAFE
