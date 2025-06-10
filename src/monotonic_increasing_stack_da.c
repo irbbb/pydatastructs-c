@@ -7,7 +7,7 @@
 /**
  * @brief Monotonic increasing stack structure using a dynamic array.
  */
-struct monotonic_increasing_stack_da_s {
+struct monotonic_increasing_stack_s {
     dynamic_array_t* arr;  /**< Dynamic array holding stack elements */
 };
 
